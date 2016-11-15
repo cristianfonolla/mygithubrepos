@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GithubService;
 use Illuminate\Http\Request;
 
 /**
@@ -10,6 +11,17 @@ use Illuminate\Http\Request;
  */
 class MyGithubReposController extends Controller
 {
+    protected $github;
+
+    /**
+     * MyGithubReposController constructor.
+     * @param $github
+     */
+    public function __construct(GithubService $github)
+    {
+        $this->github = $github;
+    }
+
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -17,17 +29,9 @@ class MyGithubReposController extends Controller
     public function index()
     {
 
-        $githubrepos = [
-
-            'repo1',
-            'repo2',
-            'repo3'
 
 
-
-
-        ];
-
+        $githubrepos = $this->github->obtainRepos();
 
 
         return view('mygithubrepos', compact('githubrepos'));
